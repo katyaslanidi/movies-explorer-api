@@ -1,35 +1,42 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const BadRequest = require('../errors/BadRequestError');
 const NotFound = require('../errors/NotFoundError');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+// const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.getMyUser = (req, res, next) => {
-  User.findById(req.user._id)
-    .then((user) => {
-      if (!user) {
-        return next(new NotFound('Пользователь не найден'));
-      }
-      return res.send(user);
-    })
-    .catch((err) => next(err));
+module.exports.getMyUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      next(new NotFound('Пользователь не найден'));
+    }
+    res.send(user);
+  } catch (err) {
+    next(err);
+  }
 };
 
-module.exports.updateUserInfo = (req, res, next) => {
-  const { name } = req.body;
-  User.findByIdAndUpdate(req.user._id, name, { new: true, runValidators: true})
-    .then((data) => {
-      if(!data) {
-        return next(new NotFound('Пользователь не найден'));
-      } return res.send(data);
-    })
-    .catch((err) => {
-      if(err instanceof (mongoose.Error.ValidationError)) {
-        return next(new BadRequest('переданы некорректные данные'));
-      } return next(err);
-    });
+module.exports.updateUserInfo = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      name,
+      { new: true, runValidators: true },
+    );
+    if (!user) {
+      next(new NotFound('Пользователь не найден'));
+    }
+    res.send(user);
+  } catch (err) {
+    if (err instanceof (mongoose.Error.ValidationError)) {
+      next(new BadRequest('переданы некорректные данные'));
+    } else {
+      next(err);
+    }
+  }
 };

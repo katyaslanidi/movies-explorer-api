@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+// const validator = require('validator');
 const urlRegex = require('../config');
 
 const movieSchema = new mongoose.Schema({
