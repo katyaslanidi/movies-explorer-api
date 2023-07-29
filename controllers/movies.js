@@ -16,8 +16,7 @@ module.exports.getMovies = async (req, res, next) => {
 
 module.exports.createMovie = async (req, res, next) => {
   try {
-    const movieData = req.body;
-    const movie = await Movie.create({ movieData, owner: req.user._id });
+    const movie = await Movie.create({ ...req.body, owner: req.user._id });
     res.status(201).send(movie);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {

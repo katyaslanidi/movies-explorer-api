@@ -18,16 +18,19 @@ module.exports.getMyUser = async (req, res, next) => {
 
 module.exports.updateUserInfo = async (req, res, next) => {
   try {
-    const { name } = req.body;
+    const { email, name } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      name,
+      { email, name },
       { new: true, runValidators: true },
     );
     if (!user) {
       next(new NotFound('Пользователь не найден'));
     }
-    res.send(user);
+    res.send({
+      email: user.email,
+      name: user.name,
+    });
   } catch (err) {
     if (err instanceof (mongoose.Error.ValidationError)) {
       next(new BadRequest('переданы некорректные данные'));
