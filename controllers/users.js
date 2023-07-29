@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const BadRequest = require('../errors/BadRequestError');
 const NotFound = require('../errors/NotFoundError');
-
-// const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getMyUser = async (req, res, next) => {
   try {
