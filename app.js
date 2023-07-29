@@ -2,27 +2,42 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const helmet = require('celebrate');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 
-const { PORT } = require('./config');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const config = require('./config');
+const cors = require('./middlewares/cors');
 const errorHandler = require('./errors/errorHandler');
 const router = require('./routes');
+const limiter = require('./middlewares/rateLimite');
 
 const app = express();
 
-// mongoose.connect( url, { useNewUrlParser: true })
-//   .then(() => console.log('Успешное подключение к MongoDB'))
-//   .catch((err) => console.log('Ошибка подключение:', err));
+const startServer = async () => {
+  try {
+    await mongoose.connect(config.MONGODB_URI, {
+      useNewUrlParser: true,
+    });
+    console.log('Успешное подключение к MongoDB');
+    await app.listen(config.PORT);
+    console.log(`Сервер запущен, PORT = ${config.PORT}`);
+  } catch (err) {
+    console.log('Ошибка подключение', err);
+  }
+};
 
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(requestLogger);
+app.use(cors);
+
+app.use(limiter);
 app.use(router);
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Сервер запущен, PORT = ${PORT}`);
-});
+startServer();

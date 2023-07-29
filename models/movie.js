@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-// const validator = require('validator');
-const urlRegex = require('../config');
+const validatorUrl = require('validator/lib/isURL');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -26,23 +25,17 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    validate: {
-      validator: (url) => urlRegex.test(url),
-    },
+    validate: validatorUrl,
   },
   trailerLink: {
     type: String,
     required: true,
-    validate: {
-      validator: (url) => urlRegex.test(url),
-    },
+    validate: validatorUrl,
   },
   thumbnail: {
     type: String,
     required: true,
-    validate: {
-      validator: (url) => urlRegex.test(url),
-    },
+    validate: validatorUrl,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
