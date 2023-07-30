@@ -1,6 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 
-const URL_REGEXP = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const URL_REGEXP = require('../utils/urlValidation');
 
 module.exports.registrationValidation = celebrate({
   body: Joi.object().keys({
@@ -19,6 +19,7 @@ module.exports.loginValidation = celebrate({
 
 module.exports.updateUserInfoValidation = celebrate({
   body: Joi.object().keys({
+    email: Joi.string().required().email(),
     name: Joi.string().min(2).max(30).required(),
   }),
 });

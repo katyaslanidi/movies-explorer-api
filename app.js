@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
+const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const config = require('./config');
 const cors = require('./middlewares/cors');
-const errorHandler = require('./errors/errorHandler');
 const router = require('./routes');
+const config = require('./utils/config');
 const limiter = require('./middlewares/rateLimite');
 
 const app = express();
@@ -27,11 +27,11 @@ const startServer = async () => {
   }
 };
 
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+app.use(helmet());
 app.use(cors);
 
 app.use(limiter);
