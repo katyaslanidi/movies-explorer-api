@@ -34,7 +34,7 @@ module.exports.registration = async (req, res, next) => {
       next(new ConflictError(DUPLICATE_ERROR_MESSAGE));
     } else if (err instanceof VALIDATION_ERROR) {
       next(new BadRequest(INVALID_DATA_ERROR_MESSAGE));
-    } else next(err.array());
+    } else next(err);
   }
 };
 
