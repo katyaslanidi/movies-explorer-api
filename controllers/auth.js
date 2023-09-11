@@ -56,6 +56,6 @@ module.exports.login = async (req, res, next) => {
     );
     res.send({ token });
   } catch (err) {
-    next(err.array());
+    next(err);
   }
 };
