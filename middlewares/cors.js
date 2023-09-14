@@ -1,12 +1,12 @@
 const allowedCors = [
   'https://katyaslanidi.movies.nomoredomainsicu.ru',
   'http://katyaslanidi.movies.nomoredomainsicu.ru',
-  'https://api.katyaslanidi.movies.nomoreparties.co',
-  'http://api.katyaslanidi.movies.nomoreparties.co',
-  'https://127.0.0.1:3000',
-  'http://127.0.0.1:3000',
-  'https://localhost:3000',
-  'http://localhost:3000',
+  // 'https://api.katyaslanidi.movies.nomoreparties.co',
+  // 'http://api.katyaslanidi.movies.nomoreparties.co',
+  // 'https://127.0.0.1:3000',
+  // 'http://127.0.0.1:3000',
+  // 'https://localhost:3000',
+  // 'http://localhost:3000',
 ];
 
 module.exports = (req, res, next) => {
