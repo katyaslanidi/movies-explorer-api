@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const JWT_SECRET_DEV = 'some-secret-key';
+
 const VALIDATION_ERROR = mongoose.Error.ValidationError;
 const CAST_ERROR = mongoose.Error.CastError;
 const DUPLICATE_KEY_ERROR = 11000;
@@ -24,6 +26,7 @@ const NOT_FOUND_ROUTE_ERROR_MESSAGE = 'Такого роута не сущест
 const INTERNAL_SERVER_ERROR_MESSAGE = 'На сервере произошла ошибка';
 
 module.exports = {
+  JWT_SECRET_DEV,
   VALIDATION_ERROR,
   CAST_ERROR,
   DUPLICATE_KEY_ERROR,
